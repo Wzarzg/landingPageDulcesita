@@ -1,12 +1,24 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import Container from "./Container";
+import logo from "../../assets/imgs/logo.webp"
 
 const navLinks = [
-  { label: "Catálogo", href: "#catalogo" },
-  { label: "Nosotros", href: "#historia" },
-  { label: "Contacto", href: "#contacto" },
+  { label: "Catálogo", id: "catalogo" },
+  { label: "Nosotros", id: "historia" },
+  { label: "Contacto", id: "contacto" },
 ];
+
+const scrollToSection = (id) => {
+  const element = document.getElementById(id);
+
+  if (element) {
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
+};
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,24 +45,48 @@ const Navbar = () => {
     >
       <Container className="flex items-center justify-between py-4">
         {/* Logo */}
-        <a
-          href="#"
-          className="text-2xl md:text-3xl tracking-tight text-[#6c2f00] font-serif"
-        >
-          Manjar Blanco Dulcesita
-        </a>
+        <button
+            onClick={() => scrollToSection("inicio")}
+            className="flex items-center gap-3"
+          >
+            {/* Logo solo desktop */}
+            <img
+              src={logo}
+              alt="Manjar Blanco Dulcesita"
+              draggable={false}
+              className="
+                hidden md:block
+                h-14
+                w-auto
+                object-contain
+                select-none
+              "
+            />
+
+            <span
+              className="
+                text-2xl
+                md:text-3xl
+                tracking-tight
+                text-[#6c2f00]
+                font-serif
+              "
+            >
+              Manjar Blanco Dulcesita
+            </span>
+          </button>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-10">
           <ul className="flex items-center gap-6">
             {navLinks.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  className="text-[#54433a] hover:text-[#934b19] transition-colors duration-300 text-lg"
+              <li key={link.id}>
+                <button
+                  onClick={() => scrollToSection(link.id)}
+                  className="text-[#54433a] hover:text-[#934b19]  duration-300 text-lg font-medium hover:scale-105 transition-all ease-in-out"
                 >
                   {link.label}
-                </a>
+                </button>
               </li>
             ))}
           </ul>
@@ -79,14 +115,16 @@ const Navbar = () => {
         <Container className="py-6">
           <ul className="flex flex-col gap-5">
             {navLinks.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="block text-[#54433a] hover:text-[#934b19] transition-colors duration-300"
+              <li key={link.id}>
+                <button
+                  onClick={() => {
+                    scrollToSection(link.id);
+                    setIsOpen(false);
+                  }}
+                  className="block text-[#54433a] hover:text-[#934b19] transition-colors duration-300 font-medium"
                 >
                   {link.label}
-                </a>
+                </button>
               </li>
             ))}
           </ul>

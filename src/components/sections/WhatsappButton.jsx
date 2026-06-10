@@ -4,7 +4,7 @@ export default function WhatsappButton() {
   const phoneNumber = "51970754616"; // num dulcesita
  
   const message =
-    "Hola, vengo de su sitio web y quisiera más información sobre sus productos.";
+    "Hola, vengo de su sitio web. Quisiera obtener más información sobre sus productos.";
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
@@ -30,12 +30,13 @@ export default function WhatsappButton() {
         "
         >
         <img
-            src={whats}
-            alt="WhatsApp"
-            className="
-            w-10
-            h-10
-            "
+          src={whats}
+          draggable={false}
+          alt="WhatsApp"
+          className="
+          w-10
+          h-10
+          "
         />
         </a>
     </div>
