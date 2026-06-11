@@ -13,7 +13,6 @@ const HeroSection = () => {
             alt="Fondo principal de Dulcesita"
             className="w-full h-full object-cover object-center"
           />
-
           <div className="absolute inset-0 bg-linear-to-r from-[#fff8f6]/80 via-[#fff8f6]/40 to-transparent" />
         </div>
 
