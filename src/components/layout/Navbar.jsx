@@ -9,6 +9,7 @@ const navLinks = [
   { label: "Contacto", id: "contacto" },
 ];
 
+
 const scrollToSection = (id) => {
   const element = document.getElementById(id);
 
@@ -23,10 +24,27 @@ const scrollToSection = (id) => {
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
+    let lastScrollY = window.scrollY;
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const currentScrollY = window.scrollY;
+
+      setIsScrolled(currentScrollY > 20);
+
+      if (currentScrollY < 50) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY) {
+        // Bajando
+        setIsVisible(false);
+      } else {
+        // Subiendo
+        setIsVisible(true);
+      }
+
+      lastScrollY = currentScrollY;
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -36,13 +54,22 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 border-b
-      ${
-        isScrolled
-          ? "bg-white/85 backdrop-blur-md shadow-lg border-orange-100"
-          : "bg-[#fff8f6]/85 backdrop-blur-sm border-transparent"
-      }`}
-    >
+        className={`
+          fixed top-0 left-0 w-full z-50
+          transition-all duration-500
+          border-b
+          ${
+            isVisible
+              ? "translate-y-0"
+              : "-translate-y-full"
+          }
+          ${
+            isScrolled
+              ? "bg-white/85 backdrop-blur-md shadow-lg border-orange-100"
+              : "bg-[#fff8f6]/85 backdrop-blur-sm border-transparent"
+          }
+        `}
+      >
       <Container className="flex items-center justify-between py-4">
         {/* Logo */}
         <button
@@ -133,6 +160,7 @@ const Navbar = () => {
       </div>
     </nav>
   );
+  
 };
 
 export default Navbar;

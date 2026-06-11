@@ -13,7 +13,6 @@ const HeroSection = () => {
             alt="Fondo principal de Dulcesita"
             className="w-full h-full object-cover object-center"
           />
-
           <div className="absolute inset-0 bg-linear-to-r from-[#fff8f6]/80 via-[#fff8f6]/40 to-transparent" />
         </div>
 
@@ -21,13 +20,13 @@ const HeroSection = () => {
         <div className="absolute top-20 -left-20 w-96 h-96 bg-orange-200/20 rounded-full blur-3xl animate-pulse z-0 pointer-events-none" />
 
         {/* Content */}
-        <motion.div className="relative z-10 container mx-auto px-6 lg:px-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
+        <motion.div className="relative z-10 container mx-auto px-6 lg:px-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center md:p-5"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.9 }}
         >
-          <div className="max-w-xl">
+          <div className="max-w-xl pb-10">
             {/* Badge */}
             <span className="inline-block px-4 py-1 mb-6 rounded-full bg-white/80 text-[#6c2f00] text-sm tracking-[0.2em] font-semibold shadow-sm border border-orange-100">
               RECETA FAMILIAR
@@ -70,7 +69,7 @@ const HeroSection = () => {
         {/* Bottom Divider */}
         <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10">
           <svg
-            className="relative block w-[calc(100%+1.3px)] h-15"
+            className="relative block w-[calc(100%+1.3px)] h-8"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 1200 120"
             preserveAspectRatio="none"
