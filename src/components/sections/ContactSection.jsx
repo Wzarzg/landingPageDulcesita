@@ -1,29 +1,16 @@
-import { Clock, MapPin, Phone } from "lucide-react";
+import { Clock, MapPin, Phone, Mail,  } from "lucide-react";
 import map from "../../assets/imgs/mappe.webp"
+import { motion } from "framer-motion";
+import { FaFacebookF } from "react-icons/fa";
 
 const ContactSection = () => {
   return (
     <section
       id="contacto"
-      className="bg-[#ffe9e4] relative py-32 md:py-40"
+      className="bg-[#ffcea0] relative py-22 md:py-40"
     >
-      
-      {/* Top Divider */}
-      <div className="absolute top-0 left-0 w-full overflow-hidden leading-none z-0">
-        <svg
-          className="relative block w-[calc(100%+1.3px)] h-7.5"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
-          <path
-            fill="#fff8f6"
-            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C73.8,13.23,153.05,42.52,227.1,52.27,258.91,56.44,290.87,58.82,321.39,56.44Z"
-          />
-        </svg>
-      </div>
       {/* Top Divider Invertido */}
-      <div className="absolute top-7.5 left-0 w-full overflow-hidden leading-none z-0">
+      <div className="absolute top-0 left-0 w-full overflow-hidden leading-none z-0">
         <svg
           className="relative block w-[calc(100%+1.3px)] h-4 scale-y-[-1]"
           xmlns="http://www.w3.org/2000/svg"
@@ -31,13 +18,18 @@ const ContactSection = () => {
           preserveAspectRatio="none"
         >
           <path
-            fill="#fff8f6"
+            fill="#d89575"
             d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V0C73.8,13.23,153.05,42.52,227.1,52.27,258.91,56.44,290.87,58.82,321.39,56.44Z"
           />
         </svg>
       </div>
 
-      <div className="container mx-auto px-6 lg:px-16 max-w-7xl relative z-10 pt-8">
+      <motion.div className="container mx-auto px-4 lg:px-16 max-w-7xl relative z-10 pt-8"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.9 }}
+      >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
           {/* Contact Form */}
           <div className="bg-[#fff8f6] p-8 lg:p-12 rounded-4xl shadow-[0_10px_30px_rgba(139,69,19,0.08)]">
@@ -50,16 +42,26 @@ const ContactSection = () => {
             </p>
             {/* Email */}
                 <div className="mt-10">
-                    <h3 className="text-lg font-semibold text-[#2b1611] mb-4">
+                  <h3 className="text-lg font-semibold text-[#2b1611] mb-4">
                     Nuestro Correo Electrónico
-                    </h3>
+                  </h3>
 
-                    <a
+                  <a
                     href="mailto:dulcesitaelaboraciones@hotmail.com"
-                    className="block text-2xl text-[#934b19] hover:text-[#6c2f00] transition-colors duration-300 border-b-2 border-[#dac2b6] pb-3"
-                    >
-                    dulcesitaelaboraciones@hotmail.com
-                    </a>
+                    className="
+                      flex items-center gap-3
+                      text-base sm:text-lg md:text-xl
+                      text-[#934b19]
+                      hover:text-[#6c2f00]
+                      border-b-2 border-[#dac2b6]
+                      pb-3
+                      break-all
+                      hover:scale-105 transition-all duration-300
+                    "
+                  >
+                    <span>dulcesitaelaboraciones@hotmail.com</span>
+                    <Mail size={22} />
+                  </a>
                 </div>
                       
               {/* Facebook */}
@@ -72,15 +74,21 @@ const ContactSection = () => {
                     href="https://www.facebook.com/people/Manjar-Blanco-Dulcesita/100086346011457/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block text-2xl text-[#934b19] hover:text-[#6c2f00] transition-colors duration-300 border-b-2 border-[#dac2b6] pb-3"
+                    className="flex items-center gap-3 text-base sm:text-lg md:text-xl text-[#934b19] hover:text-[#6c2f00]  border-b-2 border-[#dac2b6] pb-3 hover:scale-105 transition-all duration-300"
                     >
-                    Manjar Blanco Dulcesita
+                      Manjar Blanco Dulcesita
+                      <FaFacebookF size={20} />
                     </a>
                 </div>                      
           </div>
 
           {/* Contact Info */}
-          <div className="flex flex-col justify-center items-center">
+          <motion.div className="flex flex-col justify-center items-center"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9 }}
+          >
             <div className="mb-7">
               <h3 className="text-3xl font-serif text-[#2b1611] mb-8">
                 Sobre Nosotros
@@ -134,18 +142,18 @@ const ContactSection = () => {
               </div>
             </div>
 
-                      {/* Map */}
-            <div className="text-center text-[#54433a]">
-                <p>Realizamos envíos a nivel nacional</p>
-                <p>Escríbenos para más información.</p>
-            </div>
-            <div>
-                <img src={map} alt="Mapa peru" className="h-40 mt-6" />
-            </div>
-          </div>
+              {/* Map */}
+              <div className="text-center text-[#54433a]">
+                  <p>Realizamos envíos a nivel nacional</p>
+                  <p>Escríbenos para más información.</p>
+              </div>
+              <div>
+                  <img src={map} alt="Mapa peru" draggable={false} className="h-40 mt-6" />
+              </div>
+          </motion.div>
         </div>
         
-      </div>
+      </motion.div>
     </section>
   );
 };

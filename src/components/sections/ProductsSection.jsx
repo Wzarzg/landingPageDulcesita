@@ -2,16 +2,133 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+import blancogrande from "../../assets/imgs/blanco-grande.webp";
+import blancopequeno from "../../assets/imgs/blanco-pequena.webp";
+import blancomini from "../../assets/imgs/blanco-mini.webp";
+import especialgrande from "../../assets/imgs/especial-grande.webp";
+import fudgegrande from "../../assets/imgs/fudge-grande.webp";
+import fudgepequeno from "../../assets/imgs/fudge-pequena.webp";
+import superespecialgrande from "../../assets/imgs/super-especial-grande.webp";
+import toffegrande from "../../assets/imgs/toffe-grande.webp";
+import toffepequeno from "../../assets/imgs/toffe-pequena.webp";
+
 const variants = {
-  enter: (dir) => ({ x: dir > 0 ? 300 : -300, opacity: 0, scale: 0.95 }),
+  enter: (dir) => ({ x: dir > 0 ? 80 : -80, opacity: 0, scale: 0.98 }),
   center: { x: 0, opacity: 1, scale: 1 },
-  exit: (dir) => ({ x: dir > 0 ? -300 : 300, opacity: 0, scale: 0.95 }),
+  exit: (dir) => ({ x: dir > 0 ? -80 : 80, opacity: 0, scale: 0.98 }),
 };
 
-// ─── Componente base reutilizable ───────────────────────────────────────────
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset, velocity) => Math.abs(offset) * velocity;
+
+// ─── Card principal ─────────────────────────────────────────────────────────
+const MainCard = ({ product, drag, onDragEnd }) => (
+  <motion.div
+    key={product.id}
+    custom={drag}
+    variants={variants}
+    initial="enter"
+    animate="center"
+    exit="exit"
+    transition={{ type: "spring", stiffness: 260, damping: 24 }}
+    drag={drag !== undefined ? "x" : false}
+    dragConstraints={{ left: 0, right: 0 }}
+    dragElastic={0.2}
+    onDragEnd={onDragEnd}
+    className="relative pt-28 h-full"
+  >
+    {/* Imagen sobresaliente */}
+    <motion.img
+      key={product.image}
+      src={product.image}
+      alt={product.title}
+      draggable="false"
+      initial={{ y: 10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="absolute top-0 left-1/2 -translate-y-1/5 md:-translate-y-1/8 -translate-x-1/2 w-75 md:w-92  object-contain drop-shadow-xl z-10 pointer-events-none"
+    />
+
+    {/* Card con contenido */}
+    <div className="bg-[#ffd8b3] border border-[#dac2b6]/40 rounded-4xl shadow-[0_10px_30px_rgba(139,69,19,0.08)] px-8 pt-24 pb-7 flex flex-col items-center text-center h-full">
+      <div
+        className="
+          flex
+          gap-2
+          mb-3
+          flex-wrap
+          justify-center
+          lg:justify-end
+          w-full
+        "
+      >
+        {product.tags.map((tag) => (
+          <span key={tag} className="px-3 py-1 bg-[#ffe9e4] text-[#9a4600] text-xs tracking-wider rounded-full font-semibold">
+            {tag}
+          </span>
+        ))}
+      </div>
+      <h3 className="text-2xl md:text-3xl font-serif text-[#2b1611] mb-3">
+        {product.title}
+      </h3>
+      <p className="text-[#54433a] leading-relaxed text-sm md:text-base grow">
+        {product.description}
+      </p>
+    </div>
+  </motion.div>
+);
+
+// ─── Card preview ────────────────────────────────────────────────────────────
+const PreviewCard = ({ product, drag, onDragEnd }) => (
+  <motion.div
+    key={product.id}
+    custom={drag}
+    variants={variants}
+    initial="enter"
+    animate="center"
+    exit="exit"
+    transition={{ type: "spring", stiffness: 260, damping: 24, delay: 0.04 }}
+    drag="x"
+    dragConstraints={{ left: 0, right: 0 }}
+    dragElastic={0.2}
+    onDragEnd={onDragEnd}
+    className="relative pt-20 h-full"
+  >
+    {/* Imagen sobresaliente */}
+    <motion.img
+      key={product.image}
+      src={product.image}
+      alt={product.title}
+      draggable="false"
+      initial={{ y: 10, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="absolute top-0 left-1/2 -translate-y-1/4 -translate-x-1/2 w-70  object-contain drop-shadow-lg z-10 pointer-events-none"
+    />
+
+    {/* Card con contenido */}
+    <div className="bg-[#ffd8b3] border border-[#dac2b6]/40 rounded-4xl shadow-[0_10px_30px_rgba(139,69,19,0.06)] px-6 pt-20 pb-8 flex flex-col items-center text-center h-full">
+      <div className="flex gap-2 mb-3 flex-wrap justify-center">
+        {product.tags.map((tag) => (
+          <span key={tag} className="px-3 py-1 bg-[#ffe9e4] text-[#9a4600] text-xs tracking-wider rounded-full font-semibold">
+            {tag}
+          </span>
+        ))}
+      </div>
+      <h3 className="text-xl font-serif text-[#2b1611] mb-2">
+        {product.title}
+      </h3>
+
+    </div>
+  </motion.div>
+);
+
+// ─── Componente base ────────────────────────────────────────────────────────
 const CarouselRow = ({ products }) => {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
+
+  const isSingle = products.length === 1;
 
   const next = () => {
     setDirection(1);
@@ -23,10 +140,10 @@ const CarouselRow = ({ products }) => {
     setCurrent((prev) => (prev - 1 + products.length) % products.length);
   };
 
-  // ── nuevo: maneja el fin del drag ──
   const handleDragEnd = (_, info) => {
-    if (info.offset.x < -60) next();
-    else if (info.offset.x > 60) prev();
+    const swipe = swipePower(info.offset.x, info.velocity.x);
+    if (swipe < -swipeConfidenceThreshold) next();
+    else if (swipe > swipeConfidenceThreshold) prev();
   };
 
   const mainProduct = products[current];
@@ -34,315 +151,237 @@ const CarouselRow = ({ products }) => {
 
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
+      {/* Espacio extra arriba para que la imagen sobresalga sin recortarse */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-end pt-12">
 
         {/* Main Card */}
-        <div className="md:col-span-8 relative overflow-hidden rounded-[2rem] min-h-[420px]">
+        <div className={`${isSingle ? "md:col-span-8 md:col-start-3" : "md:col-span-8"} relative`}>
           <AnimatePresence custom={direction} mode="wait">
-            <motion.div
+            <MainCard
               key={mainProduct.id}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.45, ease: "easeInOut" }}
-              // ── drag solo en móvil ──
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.2}
-              onDragEnd={handleDragEnd}
-              className="group bg-white rounded-[2rem] overflow-hidden shadow-[0_10px_30px_rgba(139,69,19,0.08)] hover:shadow-[0_20px_40px_rgba(139,69,19,0.12)] transition-shadow duration-500 border border-[#dac2b6]/20 flex flex-col md:flex-row h-full"
-            >
-              <div className="w-full md:w-1/2 h-72 md:h-auto overflow-hidden">
-                <img
-                  src={mainProduct.image}
-                  alt={mainProduct.title}
-                  draggable="false"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-              </div>
-              <div className="w-full md:w-1/2 p-8 lg:p-12 flex flex-col justify-center bg-[#fff8f6]">
-                <div className="flex gap-2 mb-4">
-                  {mainProduct.tags.map((tag) => (
-                    <span key={tag} className="px-3 py-1 bg-[#ffe9e4] text-[#9a4600] text-xs tracking-wider rounded-full font-semibold">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <h3 className="text-3xl font-serif text-[#2b1611] mb-4">
-                  {mainProduct.title}
-                </h3>
-                <p className="text-[#54433a] leading-relaxed mb-8 flex-grow">
-                  {mainProduct.description}
-                </p>
-                <button className="self-start px-6 py-3 rounded-full font-medium transition-all duration-300 border-2 border-[#6c2f00] text-[#6c2f00] hover:bg-[#6c2f00] hover:text-white">
-                  Ver detalles
-                </button>
-              </div>
-            </motion.div>
+              product={mainProduct}
+              drag={isSingle ? undefined : direction}
+              onDragEnd={isSingle ? undefined : handleDragEnd}
+            />
           </AnimatePresence>
         </div>
 
-        {/* Preview Card — solo desktop */}
-        <div className="hidden md:block md:col-span-4 relative overflow-hidden rounded-[2rem]">
-          <AnimatePresence custom={direction} mode="wait">
-            <motion.div
-              key={nextProduct.id}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.45, ease: "easeInOut", delay: 0.05 }}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.2}
-              onDragEnd={handleDragEnd}
-              className="group bg-white rounded-[2rem] overflow-hidden shadow-[0_10px_30px_rgba(139,69,19,0.08)] hover:shadow-[0_20px_40px_rgba(139,69,19,0.12)] transition-shadow duration-500 border border-[#dac2b6]/20 flex flex-col h-full"
-            >
-              <div className="h-64 overflow-hidden">
-                <img
-                  src={nextProduct.image}
-                  alt={nextProduct.title}
-                  draggable="false"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-              </div>
-              <div className="p-8 flex flex-col flex-grow bg-[#fff8f6]">
-                <div className="flex gap-2 mb-4">
-                  {nextProduct.tags.map((tag) => (
-                    <span key={tag} className="px-3 py-1 bg-[#ffe9e4] text-[#9a4600] text-xs tracking-wider rounded-full font-semibold">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <h3 className="text-2xl font-serif text-[#2b1611] mb-3">
-                  {nextProduct.title}
-                </h3>
-                <p className="text-[#54433a] leading-relaxed mb-8 flex-grow line-clamp-3">
-                  {nextProduct.description}
-                </p>
-                <button className="w-full py-3 rounded-full font-medium transition-all duration-300 border border-[#6c2f00] text-[#6c2f00] hover:bg-[#ffdbc9]">
-                  Ver detalles
-                </button>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
+        {/* Preview Card — solo desktop y solo si hay más de 1 */}
+        {!isSingle && (
+          <div className="hidden md:block md:col-span-4 relative">
+            <AnimatePresence custom={direction} mode="wait">
+              <PreviewCard
+                key={nextProduct.id}
+                product={nextProduct}
+                onDragEnd={handleDragEnd}
+              />
+            </AnimatePresence>
+          </div>
+        )}
       </div>
 
       {/* Controls */}
-      <div className="flex items-center justify-center gap-6 mt-8">
-        <button
-          onClick={prev}
-          className="w-12 h-12 rounded-full border-2 border-[#6c2f00] text-[#6c2f00] flex items-center justify-center hover:bg-[#6c2f00] hover:text-white transition-all duration-300"
-        >
-          <ChevronLeft size={20} />
-        </button>
-        <div className="flex gap-2">
-          {products.map((_, i) => (
+      {!isSingle && (
+        <div className="mt-10 flex items-center justify-center">
+          <div className="hidden md:flex items-center gap-6">
             <button
-              key={i}
-              onClick={() => {
-                setDirection(i > current ? 1 : -1);
-                setCurrent(i);
-              }}
-              className={`rounded-full transition-all duration-300 ${
-                i === current ? "w-6 h-2 bg-[#6c2f00]" : "w-2 h-2 bg-[#dac2b6]"
-              }`}
-            />
-          ))}
+              onClick={prev}
+              aria-label="Producto anterior"
+              className="w-12 h-12 rounded-full border-2 border-[#6c2f00] text-[#6c2f00] flex items-center justify-center hover:bg-[#6c2f00] hover:text-white transition-all duration-300"
+            >
+              <ChevronLeft size={20} />
+            </button>
+          </div>
+
+          <div className="flex gap-2 mx-4">
+            {products.map((_, i) => (
+              <motion.button
+                key={i}
+                aria-label={`Ir al producto ${i + 1}`}
+                onClick={() => {
+                  setDirection(i > current ? 1 : -1);
+                  setCurrent(i);
+                }}
+                animate={{ width: i === current ? 32 : 8 }}
+                transition={{ duration: 0.25 }}
+                className={`h-2 rounded-full transition-colors ${
+                  i === current ? "bg-[#6c2f00]" : "bg-[#ffd8b3]"
+                }`}
+              />
+            ))}
+          </div>
+
+          <div className="hidden md:flex items-center gap-6">
+            <button
+              onClick={next}
+              aria-label="Siguiente producto"
+              className="w-12 h-12 rounded-full border-2 border-[#6c2f00] text-[#6c2f00] flex items-center justify-center hover:bg-[#6c2f00] hover:text-white transition-all duration-300"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
         </div>
-        <button
-          onClick={next}
-          className="w-12 h-12 rounded-full border-2 border-[#6c2f00] text-[#6c2f00] flex items-center justify-center hover:bg-[#6c2f00] hover:text-white transition-all duration-300"
-        >
-          <ChevronRight size={20} />
-        </button>
-      </div>
+      )}
     </div>
   );
 };
 
-
-// ─── SECCIÓN 1: Clásicos ────────────────────────────────────────────────────
-const clasicos = [
+// ─── SECCIÓN 1: Grandes ─────────────────────────────────────────────────────
+const grande = [
   {
     id: 1,
-    title: "Manjar Clásico",
-    tags: ["TRADICIONAL", "250g"],
+    title: "Manjar Blanco Super Especial",
+    tags: ["BALDE GRANDE", "19Kg"],
     description:
-      "Nuestra receta original. Una textura suave y sedosa, ideal para untar en panes artesanales, rellenar alfajores o simplemente disfrutar directamente del frasco.",
-    image:
-      "https://images.unsplash.com/photo-1514996937319-344454492b37?q=80&w=1974&auto=format&fit=crop",
+      "Nuestra versión más selecta. Elaborado a fuego lento con leche fresca de alta calidad, logra una textura ultra cremosa y un sabor profundo, ideal para repostería profesional y pedidos de alta demanda.",
+    image: superespecialgrande,
   },
   {
     id: 2,
-    title: "Manjar con Nueces",
-    tags: ["PREMIUM", "500g"],
+    title: "Manjar Blanco Especial",
+    tags: ["BALDE GRANDE", "19Kg"],
     description:
-      "El equilibrio perfecto. La dulzura de nuestro manjar clásico contrastada con el toque crujiente de nueces seleccionadas.",
-    image:
-      "https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?q=80&w=1974&auto=format&fit=crop",
+      "Receta especial con el punto exacto de dulzura. Perfecto para alfajores, tortas y rellenos en general. Rinde de manera consistente en todo tipo de preparaciones.",
+    image: especialgrande,
   },
   {
     id: 3,
-    title: "Manjar de Lúcuma",
-    tags: ["ESPECIAL", "250g"],
+    title: "Manjar Blanco Premium",
+    tags: ["BALDE GRANDE", "20Kg"],
     description:
-      "El sabor único de la lúcuma peruana fusionado con nuestra receta tradicional. Una experiencia dulce y frutal inigualable.",
-    image:
-      "https://images.unsplash.com/photo-1541599540903-216a46ca1dc0?q=80&w=1974&auto=format&fit=crop",
+      "La combinación ideal entre sabor y rendimiento. Su textura firme y homogénea lo hace perfecto para decoración y relleno de postres que requieren precisión.",
+    image: blancogrande,
   },
-];
-
-export const SeccionClasicos = () => (
-  <section className="bg-[#fff8f6] relative overflow-hidden py-20">
-    <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
-
-      {/* Encabezado */}
-      <div className="mb-12">
-        <span className="inline-block px-4 py-1 mb-4 rounded-full bg-[#ffe9e4] text-[#9a4600] text-sm tracking-widest font-semibold">
-          CLÁSICOS
-        </span>
-        <h3 className="text-3xl md:text-4xl font-serif text-[#6c2f00]">
-          Los de siempre
-        </h3>
-      </div>
-
-      <CarouselRow products={clasicos} />
-    </div>
-  </section>
-);
-
-
-// ─── SECCIÓN 2: Sabores especiales ──────────────────────────────────────────
-const especiales = [
   {
     id: 4,
-    title: "Manjar de Chocolate",
-    tags: ["ESPECIAL", "250g"],
+    title: "Manjar Blanco Fudge Premium",
+    tags: ["BALDE GRANDE", "20Kg"],
     description:
-      "La fusión perfecta entre el chocolate oscuro y nuestro manjar tradicional. Intenso, cremoso y absolutamente irresistible.",
-    image:
-      "https://images.unsplash.com/photo-1511381939415-e44015466834?q=80&w=1974&auto=format&fit=crop",
+      "Con notas más intensas y un acabado brillante, el Fudge Premium es la elección de reposteros que buscan un manjar con carácter. Ideal para coberturas y ganaches artesanales.",
+    image: fudgegrande,
   },
   {
     id: 5,
-    title: "Manjar de Fresa",
-    tags: ["FRUTAL", "250g"],
+    title: "Manjar Blanco Toffe",
+    tags: ["BALDE GRANDE", "19Kg"],
     description:
-      "La frescura natural de la fresa combinada con la dulzura del manjar. Un contraste delicioso en cada cucharada.",
-    image:
-      "https://images.unsplash.com/photo-1587394190277-7f2a1c1f6d99?q=80&w=1974&auto=format&fit=crop",
-  },
-  {
-    id: 6,
-    title: "Manjar de Vainilla",
-    tags: ["CLÁSICO", "250g"],
-    description:
-      "El aroma inconfundible de la vainilla natural realza nuestra receta base. Suave, aromático y perfecto para repostería.",
-    image:
-      "https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?q=80&w=1974&auto=format&fit=crop",
+      "Sabor a caramelo tostado con la cremosidad del manjar tradicional. Su perfil dulce y tostado lo hace perfecto para helados, waffles y postres de inspiración clásica.",
+    image: toffegrande,
   },
 ];
 
-export const SeccionEspeciales = () => (
-  <section className="bg-[#fff8f6] relative overflow-hidden py-20">
-    <div className="absolute left-0 top-20 w-[500px] h-[500px] bg-orange-100/40 rounded-full blur-[100px] -z-10 pointer-events-none" />
-    <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
-
-      {/* Encabezado */}
-      <div className="mb-12">
+export const SeccionGrande = () => (
+  <section className="bg-[#f7cba2] relative overflow-hidden py-8">
+    <div className="container mx-auto px-6 lg:px-4 max-w-7xl">
+      <div className="mb-4">
         <span className="inline-block px-4 py-1 mb-4 rounded-full bg-[#ffe9e4] text-[#9a4600] text-sm tracking-widest font-semibold">
-          SABORES ESPECIALES
+          PRESENTACIÓN GRANDE
         </span>
-        <h3 className="text-3xl md:text-4xl font-serif text-[#6c2f00]">
-          Nuevas experiencias
+        <h3 className="text-3xl md:text-4xl font-serif text-[#6c2f00] pb-4">
+          Para pedidos al por mayor
         </h3>
       </div>
-
-      <CarouselRow products={especiales} />
+      <CarouselRow products={grande} />
     </div>
   </section>
 );
 
-
-// ─── SECCIÓN 3: Presentaciones ───────────────────────────────────────────────
-const presentaciones = [
+// ─── SECCIÓN 2: Pequeños ────────────────────────────────────────────────────
+const pequeno = [
+  {
+    id: 6,
+    title: "Manjar Blanco Toffe",
+    tags: ["BALDE PEQUEÑO", "5Kg"],
+    description:
+      "El mismo Toffe que enamora, ahora en formato ideal para negocios medianos y pastelerías. Sabor a caramelo suave con textura sedosa en cada cucharada.",
+    image: toffepequeno,
+  },
   {
     id: 7,
-    title: "Pack Degustación",
-    tags: ["PACK", "3x100g"],
+    title: "Manjar Blanco Premium",
+    tags: ["BALDE PEQUEÑO", "5Kg"],
     description:
-      "Tres variedades en un solo pack. Ideal para regalar o para quienes quieren descubrir todos nuestros sabores.",
-    image:
-      "https://images.unsplash.com/photo-1549007953-2f2dc0b24019?q=80&w=1974&auto=format&fit=crop",
+      "Nuestro clásico de siempre en una presentación más manejable. Ideal para cafeterías, restaurantes y emprendimientos de repostería que buscan calidad consistente.",
+    image: blancopequeno,
   },
   {
     id: 8,
-    title: "Presentación Familiar",
-    tags: ["PREMIUM", "1kg"],
+    title: "Manjar Blanco Fudge Premium",
+    tags: ["BALDE PEQUEÑO", "5Kg"],
     description:
-      "Para los que no se conforman con poco. Un kilo del mejor manjar artesanal con la misma receta de siempre.",
-    image:
-      "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?q=80&w=1974&auto=format&fit=crop",
-  },
-  {
-    id: 9,
-    title: "Balde Mayorista",
-    tags: ["MAYORISTA", "5kg"],
-    description:
-      "Para negocios y reposteros. Cinco kilos de calidad artesanal, perfecto para producción a escala.",
-    image:
-      "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=80&w=1974&auto=format&fit=crop",
+      "Intensidad y brillo en cada porción. El Fudge Premium en presentación pequeña es perfecto para quienes quieren incorporar un manjar diferenciado sin comprometer volumen.",
+    image: fudgepequeno,
   },
 ];
 
-export const SeccionPresentaciones = () => (
-  <section className="bg-[#fff8f6] relative overflow-hidden py-20">
-    <div className="absolute right-0 top-20 w-[500px] h-[500px] bg-orange-100/40 rounded-full blur-[100px] -z-10 pointer-events-none" />
-    <div className="container mx-auto px-6 lg:px-16 max-w-7xl">
-
-      {/* Encabezado */}
-      <div className="mb-12">
+export const SeccionPequena = () => (
+  <section className="bg-[#f7cba2] relative overflow-hidden py-8">
+    <div className="absolute left-0 top-20 w-125 h-125 bg-orange-100/40 rounded-full blur-[100px] -z-10 pointer-events-none" />
+    <div className="container mx-auto px-6 lg:px-4 max-w-7xl">
+      <div className="mb-4">
         <span className="inline-block px-4 py-1 mb-4 rounded-full bg-[#ffe9e4] text-[#9a4600] text-sm tracking-widest font-semibold">
-          PRESENTACIONES
+          PRESENTACIÓN PEQUEÑA
         </span>
-        <h3 className="text-3xl md:text-4xl font-serif text-[#6c2f00]">
-          Para cada ocasión
+        <h3 className="text-3xl md:text-4xl font-serif text-[#6c2f00] pb-4">
+          Para pedidos al por menor
         </h3>
       </div>
-
-      <CarouselRow products={presentaciones} />
+      <CarouselRow products={pequeno} />
     </div>
   </section>
 );
 
+// ─── SECCIÓN 3: Mini ────────────────────────────────────────────────────────
+const mini = [
+  {
+    id: 9,
+    title: "Manjar Blanco",
+    tags: ["POTE MINI", "500g"],
+    description:
+      "La presentación perfecta para el consumo en casa. Mismo sabor artesanal de siempre, en un pote práctico que se guarda fácil y acompaña cada momento dulce del día.",
+    image: blancomini,
+  },
+];
 
-// ─── ProductsSection principal que agrupa las 3 ──────────────────────────────
+export const SeccionMini = () => (
+  <section className="bg-[#f7cba2] relative overflow-hidden py-6 pb-32">
+    <div className="absolute right-0 top-20 w-125 h-125 bg-orange-100/40 rounded-full blur-[100px] -z-10 pointer-events-none" />
+    <div className="container mx-auto px-6 lg:px-4 max-w-7xl">
+      <div className="mb-4">
+        <span className="inline-block px-4 py-1 mb-4 rounded-full bg-[#ffe9e4] text-[#9a4600] text-sm tracking-widest font-semibold">
+          PRESENTACIÓN MINI
+        </span>
+        <h3 className="text-3xl md:text-4xl font-serif text-[#6c2f00]">
+          Para el consumo en casa
+        </h3>
+      </div>
+      <CarouselRow products={mini} />
+    </div>
+  </section>
+);
+
+// ─── ProductsSection principal ───────────────────────────────────────────────
 const ProductsSection = () => {
   return (
-    <div id="catalogo">
-      {/* Título general de la sección */}
-      <section className="bg-[#fff8f6] pt-32 md:pt-40 pb-4">
+    <div id="catalogo" >
+      <section className="bg-[#f7cba2] pt-32 md:pt-40 pb-4">
         <div className="container mx-auto px-6 lg:px-16 max-w-7xl text-center">
           <h2 className="text-4xl md:text-6xl font-serif text-[#6c2f00] mb-4">
             Nuestras Delicias
           </h2>
-          <div className="w-24 h-1 bg-[#fd8a3e] mx-auto rounded-full mb-6 opacity-50" />
-          <p className="text-lg text-[#54433a] max-w-2xl mx-auto leading-relaxed">
-            Seleccionamos los mejores ingredientes para crear texturas
-            inigualables. Perfectos para untar, rellenar o disfrutar a
-            cucharadas.
+          <div className="w-24 h-1 bg-[#572c10] mx-auto rounded-full  opacity-50" />
+          <p className="text-lg text-[#54433a] max-w-2xl mx-auto leading-relaxed pt-3">
+            Elaboramos cada producto con receta familiar y los mejores
+            ingredientes. Desde baldes para repostería profesional hasta
+            potes para disfrutar en casa.
           </p>
         </div>
       </section>
 
-      <SeccionClasicos />
-      <SeccionEspeciales />
-      <SeccionPresentaciones />
+      <SeccionGrande />
+      <SeccionPequena />
+      <SeccionMini />
+
     </div>
   );
 };
