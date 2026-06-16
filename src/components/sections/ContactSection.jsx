@@ -2,12 +2,18 @@ import { Clock, MapPin, Phone, Mail,  } from "lucide-react";
 import map from "../../assets/imgs/mappe.webp"
 import { motion } from "framer-motion";
 import { FaFacebookF } from "react-icons/fa";
+import fondo from "../../assets/imgs/fondo.webp"
 
 const ContactSection = () => {
   return (
     <section
       id="contacto"
       className="bg-[#ffcea0] relative py-22 md:py-40"
+      style={{
+              backgroundImage: `url(${fondo})`,
+              backgroundRepeat: "repeat",
+              backgroundSize: "1080px", /* Controla qué tan grandes o pequeñas se ven las figuras */
+            }}
     >
       {/* Top Divider Invertido */}
       <div className="absolute top-0 left-0 w-full overflow-hidden leading-none z-0">
