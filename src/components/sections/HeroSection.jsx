@@ -29,19 +29,20 @@ const HeroSection = () => {
           <div className="max-w-xl pb-10">
             {/* Badge */}
             <span className="inline-block px-4 py-1 mb-6 rounded-full bg-white/80 text-[#6c2f00] text-sm tracking-[0.2em] font-semibold shadow-sm border border-orange-100">
-              RECETA FAMILIAR
+              CALIDAD GARANTIZADA
             </span>
 
             {/* Title */}
             <h1 className="text-5xl md:text-7xl leading-tight font-serif text-[#2b1611] mb-6">
-              El sabor que <br />
+              Pasión por el <br />
               <span className="whitespace-nowrap">
                 <span className="text-[#934b19] italic">
-                  endulza
+                  dulce,
                 </span>{" "}
+                <span>amor </span>
                 <br className="block md:hidden" />
                 <span>
-                  tus momentos
+                por el manjar
                 </span>
               </span>
             </h1>

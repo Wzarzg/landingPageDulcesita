@@ -11,6 +11,7 @@ import fudgepequeno from "../../assets/imgs/fudge-pequena.webp";
 import superespecialgrande from "../../assets/imgs/super-especial-grande.webp";
 import toffegrande from "../../assets/imgs/toffe-grande.webp";
 import toffepequeno from "../../assets/imgs/toffe-pequena.webp";
+import fondo from "../../assets/imgs/fondo.webp"
 
 const variants = {
   enter: (dir) => ({ x: dir > 0 ? 80 : -80, opacity: 0, scale: 0.98 }),
@@ -150,7 +151,9 @@ const CarouselRow = ({ products }) => {
   const nextProduct = products[(current + 1) % products.length];
 
   return (
-    <div>
+    <div
+    
+    >
       {/* Espacio extra arriba para que la imagen sobresalga sin recortarse */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-end pt-12">
 
@@ -228,50 +231,55 @@ const CarouselRow = ({ products }) => {
 
 // ─── SECCIÓN 1: Grandes ─────────────────────────────────────────────────────
 const grande = [
-  {
+    {
     id: 1,
-    title: "Manjar Blanco Super Especial",
+    title: "Manjar Blanco Toffe",
     tags: ["BALDE GRANDE", "19Kg"],
     description:
-      "Nuestra versión más selecta. Elaborado a fuego lento con leche fresca de alta calidad, logra una textura ultra cremosa y un sabor profundo, ideal para repostería profesional y pedidos de alta demanda.",
-    image: superespecialgrande,
+      "Nuestro manjar toffe, es elaborado bajo una extricta y rigurosa coccion de leche mezclada con almidones y azúcares, obteniendo asi un intenso y cremoso sabor a dulce lácteo con un pequeño toque a caramelo toffe y una textura firme y brillante excelente para untar.",
+    image: toffegrande,
   },
   {
     id: 2,
     title: "Manjar Blanco Especial",
     tags: ["BALDE GRANDE", "19Kg"],
     description:
-      "Receta especial con el punto exacto de dulzura. Perfecto para alfajores, tortas y rellenos en general. Rinde de manera consistente en todo tipo de preparaciones.",
+      "Nuestro manjar blanco especial es elaborado con una rigurosa selección de insumos de alta calidad que resaltan un sabor tradicional de leche caramelizada. Su textura cremosa y untable lo convierte en una excelente opción para diversas aplicaciones en repostería y panadería",
     image: especialgrande,
   },
-  {
+    {
     id: 3,
-    title: "Manjar Blanco Premium",
-    tags: ["BALDE GRANDE", "20Kg"],
+    title: "Manjar Blanco Super Especial",
+    tags: ["BALDE GRANDE", "19Kg"],
     description:
-      "La combinación ideal entre sabor y rendimiento. Su textura firme y homogénea lo hace perfecto para decoración y relleno de postres que requieren precisión.",
-    image: blancogrande,
+      "Esta elaborado con leche fresca previamente seleccionada y materia prima de alta calidad. Nuestro manjar Super Especial, destaca por un sabor aunténticamente lácteo, ideal para decoraciones y pastelería fina. Una excelente opción que combina sabor y calidad",
+    image: superespecialgrande,
   },
   {
     id: 4,
-    title: "Manjar Blanco Fudge Premium",
+    title: "Manjar Blanco Premium",
     tags: ["BALDE GRANDE", "20Kg"],
     description:
-      "Con notas más intensas y un acabado brillante, el Fudge Premium es la elección de reposteros que buscan un manjar con carácter. Ideal para coberturas y ganaches artesanales.",
-    image: fudgegrande,
+      "Nuestro manjar premium representa nuestra máxima expresión de calidad y sabor, elaborado con leche fresca previamente seleccionada y un riguroso y cuidadoso proceso de cocción, obteniendo asi un intenso sabor lácteo ideal para decoraciones y diversas aplicaciones en la repostería y panaderia.",
+    image: blancogrande,
   },
   {
     id: 5,
-    title: "Manjar Blanco Toffe",
-    tags: ["BALDE GRANDE", "19Kg"],
+    title: "Manjar Blanco Fudge Premium",
+    tags: ["BALDE GRANDE", "20Kg"],
     description:
-      "Sabor a caramelo tostado con la cremosidad del manjar tradicional. Su perfil dulce y tostado lo hace perfecto para helados, waffles y postres de inspiración clásica.",
-    image: toffegrande,
+      "Nuestro fudge premium, es una deliciosa combinación de cocoa y leche, elaborado para ofrecer una textura suave, brillante y cremosa con un intenso sabor a chocolate, ideal para relleno, cobertura y decoraciones, ya que su proceso es realizado con productos de alta calidad.",
+    image: fudgegrande,
   },
 ];
 
 export const SeccionGrande = () => (
-  <section className="bg-[#f7cba2] relative overflow-hidden py-8">
+  <section className="bg-[#f7cba2] relative overflow-hidden py-8"
+  style={{
+        backgroundImage: `url(${fondo})`,
+        backgroundRepeat: "repeat",
+        backgroundSize: "1080px", /* Controla qué tan grandes o pequeñas se ven las figuras */
+      }}>
     <div className="container mx-auto px-6 lg:px-4 max-w-7xl">
       <div className="mb-4">
         <span className="inline-block px-4 py-1 mb-4 rounded-full bg-[#ffe9e4] text-[#9a4600] text-sm tracking-widest font-semibold">
@@ -293,7 +301,7 @@ const pequeno = [
     title: "Manjar Blanco Toffe",
     tags: ["BALDE PEQUEÑO", "5Kg"],
     description:
-      "El mismo Toffe que enamora, ahora en formato ideal para negocios medianos y pastelerías. Sabor a caramelo suave con textura sedosa en cada cucharada.",
+      "La misma receta de nuestro Toffe grande, en una presentación más práctica. Elaborado con leche y azúcares cuidadosamente cocidos para lograr ese característico sabor a caramelo con textura firme y brillante, ideal para negocios medianos y pastelerías.",
     image: toffepequeno,
   },
   {
@@ -301,7 +309,7 @@ const pequeno = [
     title: "Manjar Blanco Premium",
     tags: ["BALDE PEQUEÑO", "5Kg"],
     description:
-      "Nuestro clásico de siempre en una presentación más manejable. Ideal para cafeterías, restaurantes y emprendimientos de repostería que buscan calidad consistente.",
+      "Nuestro manjar Premium en formato accesible. Elaborado con leche fresca seleccionada y un riguroso proceso de cocción que garantiza ese intenso sabor lácteo, perfecto para repostería y panadería sin necesidad de grandes volúmenes.",
     image: blancopequeno,
   },
   {
@@ -309,13 +317,18 @@ const pequeno = [
     title: "Manjar Blanco Fudge Premium",
     tags: ["BALDE PEQUEÑO", "5Kg"],
     description:
-      "Intensidad y brillo en cada porción. El Fudge Premium en presentación pequeña es perfecto para quienes quieren incorporar un manjar diferenciado sin comprometer volumen.",
+      "La deliciosa combinación de cocoa y leche de nuestro Fudge Premium, ahora en presentación pequeña. Su textura suave, brillante y cremosa con intenso sabor a chocolate lo hace ideal para rellenos y coberturas en producciones medianas.",
     image: fudgepequeno,
   },
 ];
 
 export const SeccionPequena = () => (
-  <section className="bg-[#f7cba2] relative overflow-hidden py-8">
+  <section className="bg-[#f7cba2] relative overflow-hidden py-8"
+  style={{
+        backgroundImage: `url(${fondo})`,
+        backgroundRepeat: "repeat",
+        backgroundSize: "1080px", /* Controla qué tan grandes o pequeñas se ven las figuras */
+      }}>
     <div className="absolute left-0 top-20 w-125 h-125 bg-orange-100/40 rounded-full blur-[100px] -z-10 pointer-events-none" />
     <div className="container mx-auto px-6 lg:px-4 max-w-7xl">
       <div className="mb-4">
@@ -338,13 +351,18 @@ const mini = [
     title: "Manjar Blanco",
     tags: ["POTE MINI", "500g"],
     description:
-      "La presentación perfecta para el consumo en casa. Mismo sabor artesanal de siempre, en un pote práctico que se guarda fácil y acompaña cada momento dulce del día.",
+      "La calidad de nuestro manjar blanco en un pote para el consumo en casa. Elaborado con los mismos insumos de alta calidad de nuestra línea profesional, con ese sabor auténtico a leche caramelizada que nos caracteriza.",
     image: blancomini,
   },
 ];
 
 export const SeccionMini = () => (
-  <section className="bg-[#f7cba2] relative overflow-hidden py-6 pb-32">
+  <section className="bg-[#f7cba2] relative overflow-hidden py-6 pb-32"
+  style={{
+        backgroundImage: `url(${fondo})`,
+        backgroundRepeat: "repeat",
+        backgroundSize: "1080px", /* Controla qué tan grandes o pequeñas se ven las figuras */
+      }}>
     <div className="absolute right-0 top-20 w-125 h-125 bg-orange-100/40 rounded-full blur-[100px] -z-10 pointer-events-none" />
     <div className="container mx-auto px-6 lg:px-4 max-w-7xl">
       <div className="mb-4">
@@ -364,7 +382,13 @@ export const SeccionMini = () => (
 const ProductsSection = () => {
   return (
     <div id="catalogo" >
-      <section className="bg-[#f7cba2] pt-32 md:pt-40 pb-4">
+      <section className="bg-[#f7cba2] pt-32 md:pt-40 pb-4"
+        style={{
+        backgroundImage: `url(${fondo})`,
+        backgroundRepeat: "repeat",
+        backgroundSize: "1080px", /* Controla qué tan grandes o pequeñas se ven las figuras */
+      }}
+      >
         <div className="container mx-auto px-6 lg:px-16 max-w-7xl text-center">
           <h2 className="text-4xl md:text-6xl font-serif text-[#6c2f00] mb-4">
             Nuestras Delicias

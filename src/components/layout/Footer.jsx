@@ -17,10 +17,6 @@ const Footer = () => {
             <h3 className="text-xl text-[#3a2413] mb-3 font-serif">
               Elaboraciones & Distribuciones Gil S.A.C.
             </h3>
-
-            <p className="text-[#3a2413]  leading-relaxed font-medium ">
-              RUC: 20606149841
-            </p>
           </div>
 
           {/* Copyr */}

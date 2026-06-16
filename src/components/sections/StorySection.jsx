@@ -1,52 +1,49 @@
-import Almacen1 from "../../assets/imgs/Almacen1.webp"
-import Almacen2 from "../../assets/imgs/Almacen2.webp"
-import Almacen1o from "../../assets/imgs/Almacen1o.webp"
-import Almacen2o from "../../assets/imgs/Almacen2o.webp"
-import Maquinaria from "../../assets/imgs/Maquinaria.webp"
-import Maquinariao from "../../assets/imgs/Maquinariao.webp"
-import Oficinas1 from "../../assets/imgs/Oficinas1.webp"
-import Oficinas2 from "../../assets/imgs/Oficinas2.webp"
+import almacenenvasado from "../../assets/imgs/almacenenvasado.webp"
+import almacenlogistica from "../../assets/imgs/almacenlogistica.webp"
+import colaboradores from "../../assets/imgs/colaboradores.webp"
+import equipo from "../../assets/imgs/equipo.webp"
+import gerencia from "../../assets/imgs/gerencia.webp"
+import gerenciao from "../../assets/imgs/gerenciao.webp"
+import oficinas from "../../assets/imgs/oficinas.webp"
 
 import { motion } from "framer-motion";
 
 const sections = [
   {
-    title: "NUESTRAS OFICINAS",
-    subtitle: "Organización, compromiso y eficiencia",
-    image: Oficinas1,
+    title: "EL CORAZÓN DE DULCESITA",
+    subtitle: "Liderazgo, visión y compromiso",
+    image: gerenciao,
+    hoverImage: gerencia,
     description:
-      "Contamos con espacios modernos y funcionales que nos permiten brindar un servicio eficiente, garantizando la mejor atención a nuestros clientes y el óptimo desarrollo de nuestro equipo.",
+      "Nuestra gerente y subgerente lideran cada proceso con dedicación y compromiso, impulsando el crecimiento de Dulcesita y garantizando que la calidad, la tradición y la satisfacción de nuestros clientes estén siempre en el centro de nuestras decisiones.",
   },
   {
-    title: "OFICINAS QUE IMPULSAN ORGANIZACIÓN Y PRODUCTIVIDAD",
-    subtitle: "ORDEN | LIMPIEZA | CONTROL",
-    image: Oficinas2,
+    title: "ÁREA ADMINISTRATIVA",
+    subtitle: "Planificación, organización y gestión",
+    image: oficinas,
     description:
-      "Entornos de trabajo ordenados y eficientes que optimizan el desempeño del equipo y la atención al cliente.",
+      "Desde esta área coordinamos las operaciones administrativas y comerciales, asegurando una gestión eficiente que respalda el desarrollo y la continuidad de cada uno de nuestros procesos.",
   },
   {
-    title: "ALMACENAJE SEGURO, CALIDAD GARANTIZADA",
-    subtitle: "ORDEN | LIMPIEZA | CONTROL",
-    image: Almacen1o,
-    hoverImage: Almacen1,
+    title: "ÁREA DE ALMACÉN Y LOGÍSTICA",
+    subtitle: "Control, abastecimiento y distribución",
+    image: almacenlogistica,
     description:
-      "Mantenemos un control riguroso de los insumos secos para asegurar la calidad, frescura y trazabilidad en cada proceso.",
+      "Gestionamos el almacenamiento y abastecimiento de insumos con estrictos controles de calidad, garantizando la disponibilidad oportuna de los recursos necesarios para nuestra producción.",
   },
   {
-    title: "ALMACÉN ORGANIZADO, PROCESOS EFICIENTES",
-    subtitle: "ORDEN | LIMPIEZA | CONTROL",
-    image: Almacen2o,
-    hoverImage: Almacen2,
+    title: "ÁREA DE ALMACÉN Y ENVASADO",
+    subtitle: "Conservación, seguridad y presentación",
+    image: almacenenvasado,
     description:
-      "Espacios diseñados para asegurar el almacenamiento adecuado de materias primas e insumos, optimizando la trazabilidad y calidad en cada etapa.",
+      "Nos encargamos del correcto almacenamiento y envasado de nuestros productos, preservando su calidad, frescura y presentación para que lleguen en óptimas condiciones a cada cliente.",
   },
   {
-    title: "PRODUCCIÓN EFICIENTE",
-    subtitle: "ORDEN | LIMPIEZA | CONTROL",
-    image: Maquinariao,
-    hoverImage: Maquinaria,
+    title: "ÁREA DE PRODUCCIÓN",
+    subtitle: "Tradición, calidad y excelencia",
+    image: colaboradores,
     description:
-      "Contamos con sistemas de alta eficiencia para el procesamiento óptimo de la materia prima, garantizando un control térmico preciso que asegura la consistencia y sabor de nuestro manjar blanco.",
+      "Aquí elaboramos nuestro manjar blanco siguiendo procesos cuidadosamente supervisados, combinando experiencia, dedicación y altos estándares de calidad para ofrecer un producto excepcional.",
   },
 ];
 
@@ -55,6 +52,7 @@ const StorySection = () => {
     <section
       id="historia"
       className="bg-[#d89575] relative py-32 overflow-hidden"
+      
     >
       {/* Divider superior */}
       <div className="absolute top-0 left-0 w-full overflow-hidden leading-none">
@@ -79,18 +77,35 @@ const StorySection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.9 }}
         >
-          <h2 className="relative inline-block text-4xl md:text-6xl font-serif text-[#582a07] mb-8">
+          <h2 className="relative inline-block text-4xl md:text-6xl font-serif text-[#582a07] mb-15">
             Sobre Nosotros
 
             <span className="absolute -bottom-3 left-0 w-3/4 h-1 bg-[#eeccb5] rounded-full opacity-50" />
           </h2>
 
-          <h3 className="text-xl italic text-[#2b1611] mb-6 font-serif mt-4">
-            Manjar Blanco Dulcesita es el motor industrial que impulsa el mercado del dulce premium
-          </h3>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8 }}
+            className="group relative overflow-hidden rounded-4xl shadow-2xl floating"
+          >
+            <img src={equipo}
+              draggable={false}
+            className="
+                    w-full
+                    aspect-7/5
+                    object-cover
+                    transition-all
+                    duration-700
+                    
+                  "
+            >
+          </img>
+          </motion.div>
 
           {/**parrafos */}
-          <p className="hidden md:block text-lg leading-relaxed text-[#201610] m-5">
+          <p className="hidden md:block text-lg leading-relaxed text-[#201610] m-5 pt-3">
             Nos especializamos en la fabricación a gran escala de manjar blanco de calidad superior,
             combinando tecnología de vanguardia con el dinamismo que exige el comercio actual.
             Diseñamos un producto de alta rotación, rendimiento óptimo y estabilidad garantizada,
@@ -99,14 +114,14 @@ const StorySection = () => {
             suministro ágil, formal y estrictamente certificada.
           </p>
 
-          <p className="hidden md:block text-lg leading-relaxed text-[#201610]">
+          <p className="text-md italic md:text-lg leading-relaxed text-[#201610] pt-4">
             Elegir Manjar Blanco Dulcesita es asegurar un estándar de sabor impecable y un socio estratégico
             enfocado en multiplicar sus resultados de ventas.
           </p>
         </motion.div>
 
         {/* Storytelling */}
-        <div className="space-y-20 md:space-y-32">
+        <div className="space-y-15 md:space-y-24">
           {sections.map((section, index) => (
             <div
               key={section.title}
