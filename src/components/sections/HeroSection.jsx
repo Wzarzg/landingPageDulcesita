@@ -33,10 +33,10 @@ const HeroSection = () => {
             </span>
 
             {/* Title */}
-            <h1 className="text-5xl md:text-7xl leading-tight font-serif text-[#2b1611] mb-6">
+            <h1 className="text-5xl md:text-7xl leading-tight font-serif text-[#2b1611] mb-6 italic">
               Pasión por el <br />
               <span className="whitespace-nowrap">
-                <span className="text-[#934b19] italic">
+                <span className="text-[#934b19]">
                   dulce,
                 </span>{" "}
                 <span>amor </span>
