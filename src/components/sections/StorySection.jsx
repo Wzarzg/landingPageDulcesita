@@ -2,9 +2,9 @@ import almacenenvasado from "../../assets/imgs/almacenenvasado.webp"
 import almacenlogistica from "../../assets/imgs/almacenlogistica.webp"
 import colaboradores from "../../assets/imgs/colaboradores.webp"
 import equipo from "../../assets/imgs/equipo.webp"
-import gerencia from "../../assets/imgs/gerencia.webp"
 import gerenciao from "../../assets/imgs/gerenciao.webp"
 import oficinas from "../../assets/imgs/oficinas.webp"
+import prueba from "../../assets/imgs/prueba2.webp"
 
 import { motion } from "framer-motion";
 
@@ -13,12 +13,12 @@ const sections = [
     title: "EL CORAZÓN DE DULCESITA",
     subtitle: "Liderazgo, visión y compromiso",
     image: gerenciao,
-    hoverImage: gerencia,
+    hoverImage: prueba,
     description:
       "Nuestra gerente y subgerente lideran cada proceso con dedicación y compromiso, impulsando el crecimiento de Dulcesita y garantizando que la calidad, la tradición y la satisfacción de nuestros clientes estén siempre en el centro de nuestras decisiones.",
   },
   {
-    title: "ÁREA ADMINISTRATIVA",
+    title: "ÁREA ADMINISTRATIVA Y LABORATORIO",
     subtitle: "Planificación, organización y gestión",
     image: oficinas,
     description:
@@ -147,7 +147,8 @@ const StorySection = () => {
                   alt={section.title}
                   draggable={false}
                   className="
-                    w-full
+                    
+                    h-full
                     aspect-7/5
                     object-cover
                     transition-all
