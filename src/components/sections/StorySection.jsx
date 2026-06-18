@@ -7,6 +7,10 @@ import oficinas from "../../assets/imgs/oficinas.webp"
 import prueba from "../../assets/imgs/prueba2.webp"
 
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+
+//movil para hover-click
+
 
 const sections = [
   {
@@ -48,6 +52,19 @@ const sections = [
 ];
 
 const StorySection = () => {
+
+  const [activeImage, setActiveImage] = useState(null);
+  //intervalo para moviles
+  useEffect(() => {
+  if (window.innerWidth >= 1024) return;
+
+  const interval = setInterval(() => {
+    setActiveImage((prev) => (prev === 0 ? null : 0));
+  }, 4000);
+
+  return () => clearInterval(interval);
+}, []);
+
   return (
     <section
       id="historia"
@@ -140,7 +157,13 @@ const StorySection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.8 }}
-                className="group relative overflow-hidden rounded-4xl shadow-2xl floating"
+                className="group relative overflow-hidden rounded-4xl shadow-2xl floating cursor-pointer"
+                onClick={() =>
+                  section.hoverImage &&
+                  setActiveImage(
+                    activeImage === index ? null : index
+                  )
+                }
               >
                 <img
                   src={section.image}
@@ -161,17 +184,20 @@ const StorySection = () => {
                     src={section.hoverImage}
                     alt={section.title}
                     draggable={false}
-                    className="
+                    className={`
                       absolute
                       inset-0
                       w-full
                       h-full
                       object-cover
-                      opacity-0
-                      group-hover:opacity-100
                       transition-opacity
                       duration-700
-                    "
+                      ${
+                        activeImage === index
+                          ? "opacity-100"
+                          : "opacity-0 md:group-hover:opacity-100"
+                      }
+                    `}
                   />
                 )}
               </motion.div>
